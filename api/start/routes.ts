@@ -21,12 +21,24 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.post('/login', 'TokenController.create').as('Login')
-
   Route.group(() => {
-    Route.get('/', 'CryptosController.index').as('Get actual crypto currencies')
-    Route.post('/', 'CurrenciesController.update').as('Update currency')
+    Route.post('/login', 'TokenController.create').as('Login')
+
+    Route.group(() => {
+      Route.get('/', 'CryptosController.index').as('Get actual crypto currencies')
+      Route.post('/', 'CurrenciesController.update').as('Update currency')
+    })
+      .prefix('/crypto')
+      .middleware(['auth'])
+  }).prefix('/api')
+
+  //CAPTURANDO ENDPOINTS INEXISTENTES
+  Route.any('*', async ({ response }) => {
+    return response.status(404).send({
+      message: 'Endpoint não encontrado',
+    })
   })
-    .prefix('/crypto')
-    .middleware(['auth'])
-}).prefix('/api')
+}).middleware(async (ctx, next) => {
+  console.log(`[${ctx.request.method()}] ON ${ctx.request.url()}`)
+  await next()
+})
