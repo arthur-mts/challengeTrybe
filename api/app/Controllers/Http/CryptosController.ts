@@ -1,12 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import currencies from '../../data/currencies.json'
-
 import fetch from 'node-fetch'
 import IntlNumberFormatParser from 'App/Services/IntlNumberFormatParser'
+import CurrenciesFile from 'App/Services/CurrenciesFile'
 
 export default class CryptosController {
   private intlParser = new IntlNumberFormatParser()
+  private currenciesFileHandler = new CurrenciesFile()
 
   private generateBTCRateObject(actualBtcDolarRate: number, targetDolarRate: number) {
     return {
@@ -23,6 +23,7 @@ export default class CryptosController {
   }
 
   private calcBtcPrices(actualBtcDolarRateFloat: number) {
+    const currencies = this.currenciesFileHandler.getFile()
     const brlRate = this.generateBTCRateObject(actualBtcDolarRateFloat, Number(currencies.BRL))
 
     const eurRate = this.generateBTCRateObject(actualBtcDolarRateFloat, Number(currencies.EUR))
