@@ -19,9 +19,4 @@ export default styled.button`
     background: ${shade(0.1, themeFile.colors.secondary)};
     cursor: pointer;
   }
-
-  &:disabled {
-    background: #ffccbb;
-    border: 2px solid ${({ theme }) => theme.colors.error};
-  }
 `;
