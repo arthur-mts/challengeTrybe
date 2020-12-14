@@ -1,8 +1,9 @@
 import { useCurrency } from "hooks/currency";
 import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
+import ReactLoading from "react-loading";
+import theme from "styles/theme";
 import CurrencyValue from "./components/CurrencyValue";
-
 import { Wrapper, Container, StyledButton, CurrenciesGroup } from "./styles";
 
 const Currencies: React.FC = () => {
@@ -16,7 +17,7 @@ const Currencies: React.FC = () => {
   return (
     <Wrapper>
       <Container>
-        {Object.keys(currencies).length > 0 && (
+        {Object.keys(currencies).length > 0 ? (
           <>
             <StyledButton onClick={onClick}>
               Atualizar valor monetário
@@ -44,6 +45,13 @@ const Currencies: React.FC = () => {
               />
             </CurrenciesGroup>
           </>
+        ) : (
+          <ReactLoading
+            color={theme.colors.primary}
+            type="spin"
+            width="20%"
+            height="20%"
+          />
         )}
       </Container>
     </Wrapper>

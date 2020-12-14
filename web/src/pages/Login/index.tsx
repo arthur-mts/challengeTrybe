@@ -11,22 +11,19 @@ export default function Login() {
   const { push } = useHistory();
   const { signIn } = useAuth();
   const [email, setEmail] = useState("");
-  const [emailErrored, setIsEmailErrored] = useState(false);
   const [password, setPassword] = useState("");
-  const [passwordErrored, setIsPasswordErrored] = useState(false);
 
   const handleSubmit = useCallback(
     async (event: FormEvent) => {
-      console.log(passwordErrored && emailErrored);
       event.preventDefault();
       try {
         await signIn({ email, password });
         push("/");
       } catch (e) {
-        console.log("no");
+        alert("Erro no login! Por favor verifique suas credenciais");
       }
     },
-    [email, password, signIn, push, passwordErrored, emailErrored]
+    [email, password, signIn, push]
   );
 
   return (
@@ -39,8 +36,6 @@ export default function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           validateInput={validateEmail}
-          errored={emailErrored}
-          setIsErrored={setIsEmailErrored}
         />
         <Input
           name="Senha"
@@ -48,13 +43,9 @@ export default function Login() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          errored={passwordErrored}
-          setIsErrored={setIsPasswordErrored}
         />
 
-        <Button type="submit" disabled={passwordErrored || emailErrored}>
-          ENTRAR
-        </Button>
+        <Button type="submit">ENTRAR</Button>
       </LoginForm>
     </Wrapper>
   );
