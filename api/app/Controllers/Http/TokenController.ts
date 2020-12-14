@@ -24,7 +24,7 @@ export default class TokenController {
       body: { email, password },
     } = request.toJSON()
 
-    const token = sign({ email, password }, String(process.env.JWT_SECRET))
+    const token = sign({ email }, String(process.env.JWT_SECRET))
 
     // USANDO NUMERO ALEATORIO
     // return response.status(200).send({ token: RandomNumberGeneratorService.execute() })
