@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node ace build --production && cp .env build && cd build && yarn install --production",
+    "build": "node ace build --production && cp .env build && mkdir build/app/data && cp app/data/currencies.json build/app/data && cd build && yarn install --production",
     "start": "node build/server.js",
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
