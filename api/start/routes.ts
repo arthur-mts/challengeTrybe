@@ -39,6 +39,7 @@ Route.group(() => {
     })
   })
 }).middleware(async (ctx, next) => {
-  console.log(`[${ctx.request.method()}] ON ${ctx.request.url()}`)
+  if (process.env.NODE_ENV !== 'testing')
+    console.log(`[${ctx.request.method()}] ON ${ctx.request.url()}`)
   await next()
 })
