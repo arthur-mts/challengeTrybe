@@ -15,7 +15,6 @@ export default function EditCurrency() {
   const [value, setValue] = useState("0");
 
   const onClick = useCallback(async () => {
-    console.log(value, currency);
     await updateCurrency({ type: currency, value: Number.parseFloat(value) });
     setValue("");
   }, [value, currency, updateCurrency]);

@@ -40,6 +40,7 @@ const CurrencyProvider: React.FC = ({ children }) => {
       } = await api.get("/crypto", {
         headers: { Authorization: token },
       });
+
       setCurrencies(bpi);
     }
   }, [setCurrencies, token]);
@@ -52,7 +53,6 @@ const CurrencyProvider: React.FC = ({ children }) => {
           { currency: type, value },
           { headers: { Authorization: token } }
         );
-
         await getCurrencies();
       }
     },

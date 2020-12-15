@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 import moxios from "moxios";
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import { createMemoryHistory, History } from "history";
@@ -9,9 +9,16 @@ import MockAdapter from "axios-mock-adapter";
 import api from "services/api";
 import { customRender } from "./utils/App.utils";
 
-import cryptoStub from "./stub/crypto.json";
+const cryptoStub = require("./stub/crypto.json");
+
+const updateCurrencyStub = { currency: "BRL", value: "2" };
+
+const loginStub = { email: "arthur@email.com", password: "123123123" };
 
 const apiMock = new MockAdapter(api);
+
+const calcBTCCurrency = (value: number) =>
+  value * cryptoStub.bpi.USD.rate_float;
 
 const mockSuccessLoginRequest = () => {
   apiMock.onPost("/login").reply(200, { token: "myToken" });
@@ -19,9 +26,12 @@ const mockSuccessLoginRequest = () => {
 };
 
 const mockSuccessPostRequest = () => {
-  apiMock
-    .onPost("/crypto")
-    .reply(200, { message: "Valor alterado com sucesso!" });
+  apiMock.onPost("/crypto").reply(() => {
+    cryptoStub.bpi[updateCurrencyStub.currency].rate_float = calcBTCCurrency(
+      Number(updateCurrencyStub.value)
+    );
+    return [200, { message: "Alterado com sucesso" }];
+  });
 };
 
 let history: History;
@@ -54,8 +64,8 @@ describe("Edit currency", () => {
     const emailInput = screen.getByTestId("email-input");
     const passInput = screen.getByTestId("password-input");
 
-    userEvent.type(emailInput, "arthur@email.com");
-    userEvent.type(passInput, "123123123");
+    userEvent.type(emailInput, loginStub.email);
+    userEvent.type(passInput, loginStub.password);
 
     await act(async () => {
       userEvent.click(loginButton, { button: 0 });
@@ -78,35 +88,20 @@ describe("Edit currency", () => {
 
     const valueInput = screen.getByTestId("currency-value");
 
-    fireEvent.select(selectInput, { target: { value: "BRL" } });
+    const actualCurrency = screen.getByTestId("actual-currency");
 
-    userEvent.type(valueInput, "2");
+    fireEvent.select(selectInput, {
+      target: { value: updateCurrencyStub.currency },
+    });
+
+    userEvent.type(valueInput, updateCurrencyStub.value);
 
     await act(async () => {
       await userEvent.click(updateCurrencyButton, { button: 0 });
     });
 
-    await waitFor(
-      async () => {
-        console.log(screen.getByTestId("actual-currency").innerHTML);
-      },
-      { container: screen.getByTestId("actual-currency") }
+    expect(actualCurrency.innerHTML).toBe(
+      Number(updateCurrencyStub.value).toFixed(2)
     );
-
-    // await act(async () => {
-    //   await waitFor(
-    //     () => {
-    //       console.log(screen.getByTestId("edit-currency-container"));
-    //     },
-    //     { container: screen.getByTestId("edit-currency-container") }
-    //   );
-    //   console.log(screen.getByTestId("actual-currency"));
-    // });
-
-    const actualCurrency = screen.getByTestId("actual-currency");
-    console.log(actualCurrency.innerHTML);
-
-    // console.log(actualCurrency.);
-    // expect(actualCurrency.children).toEqual(2 / cryptoStub.bpi.USD.rate_float)
   });
 });
