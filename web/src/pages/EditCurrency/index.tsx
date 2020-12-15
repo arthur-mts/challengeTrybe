@@ -15,6 +15,7 @@ export default function EditCurrency() {
   const [value, setValue] = useState("0");
 
   const onClick = useCallback(async () => {
+    console.log(value, currency);
     await updateCurrency({ type: currency, value: Number.parseFloat(value) });
     setValue("");
   }, [value, currency, updateCurrency]);
@@ -25,32 +26,38 @@ export default function EditCurrency() {
         <AiOutlineArrowLeft />
         Voltar
       </BackLink>
-      <Container>
-        <Select
-          name="Moeda"
-          options={noDolarCurrencies}
-          value={currency}
-          onChange={(e) => setCurrency(e.target.value)}
-        />
+      {Object.keys(currencies).length && (
+        <Container data-testid="edit-currency-container">
+          <Select
+            data-testid="select-currency"
+            name="Moeda"
+            options={noDolarCurrencies}
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value)}
+          />
 
-        <ActualValueContainer>
-          <Title>Valor atual: </Title>
-          <p>
-            {(
-              currencies[currency].rate_float / currencies.USD.rate_float
-            ).toFixed(2)}
-          </p>
-        </ActualValueContainer>
+          <ActualValueContainer>
+            <Title>Valor atual: </Title>
+            <p data-testid="actual-currency">
+              {(
+                currencies[currency].rate_float / currencies.USD.rate_float
+              ).toFixed(2)}
+            </p>
+          </ActualValueContainer>
 
-        <Input
-          name="Novo valor"
-          value={value}
-          type="number"
-          onChange={(e) => setValue(e.target.value)}
-        />
+          <Input
+            name="Novo valor"
+            value={value}
+            type="number"
+            onChange={(e) => setValue(e.target.value)}
+            data-testid="currency-value"
+          />
 
-        <Button onClick={onClick}>ATUALIZAR</Button>
-      </Container>
+          <Button onClick={onClick} data-testid="update-currency">
+            ATUALIZAR
+          </Button>
+        </Container>
+      )}
     </Wrapper>
   );
 }

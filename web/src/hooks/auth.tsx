@@ -1,6 +1,12 @@
-import React, { createContext, useCallback, useState, useContext } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useState,
+  useContext,
+  useEffect,
+} from "react";
 
-import api from "services/api";
+import api, { setAuthorization } from "services/api";
 
 interface SignInCredentials {
   email: string;
@@ -26,14 +32,17 @@ const AuthProvider: React.FC = ({ children }) => {
   });
 
   const signIn = useCallback(async ({ email, password }) => {
-    const reseponse = await api.post("login", { email, password });
-
+    const reseponse = await api.post(`login`, { email, password });
     const { token: responseToken } = reseponse.data;
 
     localStorage.setItem("@Crypto:token", responseToken);
 
     setToken(responseToken);
   }, []);
+
+  useEffect(() => {
+    setAuthorization(token);
+  }, [token]);
 
   const signOut = useCallback(() => {
     localStorage.removeItem("@Crypto:token");

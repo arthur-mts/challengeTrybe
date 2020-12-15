@@ -20,7 +20,7 @@ export default function Login() {
         await signIn({ email, password });
         push("/");
       } catch (e) {
-        alert("Erro no login! Por favor verifique suas credenciais");
+        window.alert("Erro no login! Por favor verifique suas credenciais");
       }
     },
     [email, password, signIn, push]
@@ -28,8 +28,9 @@ export default function Login() {
 
   return (
     <Wrapper>
-      <LoginForm onSubmit={handleSubmit}>
+      <LoginForm onSubmit={handleSubmit} data-testid="form">
         <Input
+          data-testid="email-input"
           name="Email"
           placeholder="Seu email"
           type="email"
@@ -38,6 +39,7 @@ export default function Login() {
           validateInput={validateEmail}
         />
         <Input
+          data-testid="password-input"
           name="Senha"
           placeholder="*******"
           type="password"
@@ -45,7 +47,9 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Button type="submit">ENTRAR</Button>
+        <Button type="submit" data-testid="submit-login">
+          ENTRAR
+        </Button>
       </LoginForm>
     </Wrapper>
   );

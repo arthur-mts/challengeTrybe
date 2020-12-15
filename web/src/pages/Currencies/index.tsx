@@ -9,17 +9,16 @@ import { Wrapper, Container, StyledButton, CurrenciesGroup } from "./styles";
 const Currencies: React.FC = () => {
   const { currencies } = useCurrency();
   const { push } = useHistory();
-
   const onClick = useCallback(() => {
     push("/editCurrency");
   }, [push]);
 
   return (
     <Wrapper>
-      <Container>
+      <Container data-testid="">
         {Object.keys(currencies).length > 0 ? (
           <>
-            <StyledButton onClick={onClick}>
+            <StyledButton onClick={onClick} data-testid="edit-currency-button">
               Atualizar valor monetário
             </StyledButton>
             <CurrencyValue

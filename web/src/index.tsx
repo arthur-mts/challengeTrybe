@@ -5,10 +5,7 @@ import GlobalStyle from "styles/globalStyle";
 import theme from "styles/theme";
 import { BrowserRouter } from "react-router-dom";
 import AppProvider from "hooks";
-import dotenv from "dotenv";
 import Routes from "./routes";
-
-dotenv.config();
 
 ReactDOM.render(
   <React.StrictMode>

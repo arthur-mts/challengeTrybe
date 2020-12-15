@@ -4,11 +4,16 @@
   "private": true,
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/axios-mock-adapter": "^1.10.0",
+    "@types/history": "^4.7.8",
+    "@types/moxios": "^0.4.9",
+    "@types/nock": "^11.1.0",
     "@types/react-icons": "^3.0.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
+    "axios-mock-adapter": "^1.19.0",
     "eslint": "^7.11.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-airbnb-typescript": "^12.0.0",
@@ -19,6 +24,9 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "4.0.0",
+    "history": "^5.0.0",
+    "moxios": "^0.4.0",
+    "nock": "^13.0.5",
     "prettier": "^2.2.1"
   },
   "dependencies": {
@@ -46,7 +54,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --testPathIgnorePatterns=src/__tests__/utils",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
