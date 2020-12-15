@@ -43,59 +43,70 @@ describe("Edit currency", () => {
     expect(history.location.pathname).toEqual("/login");
   });
 
-  // it("should be able to edit BRL currency", async () => {
-  //   mockSuccessLoginRequest();
-  //   mockSuccessPostRequest();
+  it("should be able to edit BRL currency", async () => {
+    mockSuccessLoginRequest();
+    mockSuccessPostRequest();
 
-  //   history.push("/login");
-  //   customRender(history);
+    history.push("/login");
+    customRender(history);
 
-  //   const loginButton = screen.getByTestId("submit-login");
-  //   const emailInput = screen.getByTestId("email-input");
-  //   const passInput = screen.getByTestId("password-input");
+    const loginButton = screen.getByTestId("submit-login");
+    const emailInput = screen.getByTestId("email-input");
+    const passInput = screen.getByTestId("password-input");
 
-  //   userEvent.type(emailInput, "arthur@email.com");
-  //   userEvent.type(passInput, "123123123");
+    userEvent.type(emailInput, "arthur@email.com");
+    userEvent.type(passInput, "123123123");
 
-  //   await act(async () => {
-  //     await userEvent.click(loginButton, { button: 0 });
-  //   });
+    await act(async () => {
+      userEvent.click(loginButton, { button: 0 });
+    });
 
-  //   await act(async () => {
-  //     await customRender(history);
-  //   });
+    await act(async () => {
+      customRender(history);
+    });
 
-  //   const goToEditCurrencyButton = screen.getByTestId("edit-currency-button");
+    const goToEditCurrencyButton = screen.getByTestId("edit-currency-button");
+    userEvent.click(goToEditCurrencyButton, { button: 0 });
 
-  //   await act(async () => {
-  //     userEvent.click(goToEditCurrencyButton, { button: 0 });
-  //     await customRender(history);
-  //   });
+    await act(async () => {
+      customRender(history);
+    });
 
-  //   const button = screen.getByTestId("update-currency");
-  //   const selectInput = screen.getByTestId("select-currency");
-  //   const valueInput = screen.getByTestId("currency-value");
+    const updateCurrencyButton = screen.getByTestId("update-currency");
 
-  //   fireEvent.select(selectInput, { target: { value: "BRL" } });
-  //   userEvent.type(valueInput, "2");
+    const selectInput = screen.getByTestId("select-currency");
 
-  //   await act(async () => {
-  //     await userEvent.click(button, { button: 0 });
-  //   });
+    const valueInput = screen.getByTestId("currency-value");
 
-  //   await act(async () => {
-  //     await waitFor(
-  //       () => {
-  //         console.log(screen.getByTestId("edit-currency-container"));
-  //       },
-  //       { container: screen.getByTestId("edit-currency-container") }
-  //     );
-  //     console.log(screen.getByTestId("actual-currency"));
-  //   });
+    fireEvent.select(selectInput, { target: { value: "BRL" } });
 
-  //   const actualCurrency = screen.getByTestId("actual-currency");
+    userEvent.type(valueInput, "2");
 
-  //   // console.log(actualCurrency.);
-  //   // expect(actualCurrency.children).toEqual(2 / cryptoStub.bpi.USD.rate_float)
-  // });
+    await act(async () => {
+      await userEvent.click(updateCurrencyButton, { button: 0 });
+    });
+
+    await waitFor(
+      async () => {
+        console.log(screen.getByTestId("actual-currency").innerHTML);
+      },
+      { container: screen.getByTestId("actual-currency") }
+    );
+
+    // await act(async () => {
+    //   await waitFor(
+    //     () => {
+    //       console.log(screen.getByTestId("edit-currency-container"));
+    //     },
+    //     { container: screen.getByTestId("edit-currency-container") }
+    //   );
+    //   console.log(screen.getByTestId("actual-currency"));
+    // });
+
+    const actualCurrency = screen.getByTestId("actual-currency");
+    console.log(actualCurrency.innerHTML);
+
+    // console.log(actualCurrency.);
+    // expect(actualCurrency.children).toEqual(2 / cryptoStub.bpi.USD.rate_float)
+  });
 });

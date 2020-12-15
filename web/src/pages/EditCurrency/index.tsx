@@ -26,7 +26,7 @@ export default function EditCurrency() {
         <AiOutlineArrowLeft />
         Voltar
       </BackLink>
-      {Object.keys(currencies).length && (
+      {Object.keys(currencies).length > 0 && (
         <Container data-testid="edit-currency-container">
           <Select
             data-testid="select-currency"
