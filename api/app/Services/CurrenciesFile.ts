@@ -11,8 +11,6 @@ import IntlNumberFormatParser from './IntlNumberFormatParser'
 export default class CurrenciesFile {
   private static filePath = path.resolve(__dirname, '..', 'data', 'currencies.json')
 
-  private intlParser = new IntlNumberFormatParser()
-
   public getFile() {
     const rawData = fs.readFileSync(CurrenciesFile.filePath).toString()
     return JSON.parse(rawData) as Currencies
@@ -23,7 +21,7 @@ export default class CurrenciesFile {
       CurrenciesFile.filePath,
       JSON.stringify({
         ...require(CurrenciesFile.filePath),
-        [currency]: this.intlParser.numberToenUSCurrency(newValue),
+        [currency]: IntlNumberFormatParser.numberToenUSCurrency(newValue),
       })
     )
   }

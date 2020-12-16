@@ -17,10 +17,8 @@ test.group('Get Crypto currency ', () => {
         await supertest(BASE_URL).post(LOGIN_ENDPOINT).send(VALID_CREDENTIALS_MOCK)
       ).body
 
-      const { body } = await supertest(BASE_URL)
-        .get(CRYPTO_ENDPOINT)
-        .set('Authorization', token)
-        .timeout(10000)
+      const { body } = await supertest(BASE_URL).get(CRYPTO_ENDPOINT).set('Authorization', token)
+
       assert.hasAllKeys(body, ['time', 'bpi', 'disclaimer'])
     }).timeout(10000)
   })
