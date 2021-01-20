@@ -21,7 +21,7 @@ export default class TokenController {
 
     // USANDO JWT
     const {
-      body: { email, password },
+      body: { email },
     } = request.toJSON()
 
     const token = sign({ email }, String(process.env.JWT_SECRET))

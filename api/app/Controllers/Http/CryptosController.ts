@@ -5,12 +5,12 @@ import IntlNumberFormatParser from 'App/Services/IntlNumberFormatParser'
 import CurrenciesFile from 'App/Services/CurrenciesFile'
 
 export default class CryptosController {
-  private intlParser = new IntlNumberFormatParser()
+
   private currenciesFileHandler = new CurrenciesFile()
 
   private generateBTCRateObject(actualBtcDolarRate: number, targetDolarRate: number) {
     return {
-      rate: this.intlParser.numberToenUSCurrency(targetDolarRate * actualBtcDolarRate),
+      rate: IntlNumberFormatParser.numberToenUSCurrency(targetDolarRate * actualBtcDolarRate),
       rate_float: targetDolarRate * actualBtcDolarRate,
     }
   }
